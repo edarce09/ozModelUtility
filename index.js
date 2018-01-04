@@ -2,6 +2,7 @@
  *
  *
  */
+let _ = require('lodash');
 
 const loadAll = function loadAllDocumentsFromCollection(params, cb){
   if(!params.filter) params.filter = {};
@@ -12,9 +13,24 @@ const loadAll = function loadAllDocumentsFromCollection(params, cb){
   });
 }
 
+const load = function loadOneDocumentFromCollection(params, cb){
+  if(!params && _.isEmpty(params)) return cb(true); 
+  this.findOne(params.query, params.fields, (err, person)=>{
+    return cb(err, person);
+  });  
+}
+
+const deleteOne = function deleteOneDocumentFromCollection(params, cb){
+  this.remove(params.query, (err)=>{
+    return cb(err);
+  });
+}
+
 //const rICallback
 
 
 module.exports = function(schema) {
-  schema.statics.loadAll = loadAll
+  schema.statics.load = load,
+  schema.statics.loadAll = loadAll,
+  schema.statics.deleteOne = deleteOne 
 }
