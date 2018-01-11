@@ -52,6 +52,7 @@ const deleteOne = function deleteOneDocumentFromCollection(params, cb){
  * @return {callback}  err 
  */
 const preEdit = function dynamicallyEditsDocument(data, cb){
+  this.lastEdit.date = new Date().getTime();
   let ignore = '__v _id createdAt _v collectionName isEnable ';
   let schemaKeys = Object.keys(this.schema.tree);
   let dataKeys = Object.keys(data);
@@ -60,7 +61,6 @@ const preEdit = function dynamicallyEditsDocument(data, cb){
   let newValues ={};
   if(data.ignore) ignore += data.ignore;
   let newKeys = removeParams(schemaKeys, dataKeys, ignore);
-  this.lastEdit.date = new Date().getTime();
   if(data.isNew === true) this.createdAt = this.lastEdit;
   setNewObject(data, newThis, newKeys, cb);
 }
