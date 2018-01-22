@@ -10,7 +10,7 @@ let _ = require('lodash');
 const loadAll = function loadAllDocumentsFromCollection(params, cb){
   if(!params.filter) params.filter = {};
   if(!params.options) params.options = {page:1, limit:10};
-  if(!params.options.sort) params.options.sort = 'title';
+  if(!params.options.sort) params.options.sort = 'name';
   this.paginate(params.filter, params.options, (err, documents)=>{
     return cb(err, documents);
   });
