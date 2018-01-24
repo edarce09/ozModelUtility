@@ -53,7 +53,7 @@ const deleteOne = function deleteOneDocumentFromCollection(params, cb){
  */
 const preEdit = function dynamicallyEditsDocument(data, cb){
   this.lastEdit.date = new Date().getTime();
-  let ignore = '__v _id createdAt _v collectionName isEnable ';
+  let ignore = '__v roles permissions _id createdAt _v collectionName isEnable ';
   let schemaKeys = Object.keys(this.schema.tree);
   let dataKeys = Object.keys(data);
   let flag = false;
@@ -65,6 +65,7 @@ const preEdit = function dynamicallyEditsDocument(data, cb){
   setNewObject(data, newThis, newKeys, cb);
 }
 
+//---------preEdit functions-------------------------------------
 const setNewObject = function(data, newThis, keys, cb){
   keys.forEach(function(element, k){
     if(data[element] !='undefined' && data[element] != null){
@@ -83,14 +84,12 @@ const removeParams = function removeKeysFromTheIgnoreList(keys, bodyKeys, ignore
     let ignoreIndex = ignore.indexOf(element);
     let bodyIndex = bodyKeys.indexOf(element);
     if(ignoreIndex === -1 && bodyIndex != -1) newKeys.push(element);
-  })
+  });
   return  newKeys;
 }
+//---------------------------------------------------------------
+//---------------------------------------------------------------
 
-/*
-const somethingKeys = function(keys,()=>{
-})
-*/
 const setEnabled = function enablesADocumentInTheCollection(cb){
   this.isEnable = !this.isEnable;
   this.save(cb);
